@@ -60,24 +60,14 @@ jobs:
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
           script: |
-            cd techshop/reactnative-fixed/android
-            ./gradlew installDebug --no-daemon
-            cd ../../..
-            maestro test \
-              --format junit \
-              --output maestro-report.xml \
-              -e TEST_EMAIL="$TEST_EMAIL" \
-              -e TEST_PASSWORD="$TEST_PASSWORD" \
-              -e EMAIL="$TEST_EMAIL" \
-              -e PASSWORD="$TEST_PASSWORD" \
-              maestro/flows
+            adb install techshop/reactnative-fixed/android/app/build/outputs/apk/debug/app-debug.apk
+            maestro test --format junit --output maestro-report.xml -e TEST_EMAIL="$TEST_EMAIL" -e TEST_PASSWORD="$TEST_PASSWORD" -e EMAIL="$TEST_EMAIL" -e PASSWORD="$TEST_PASSWORD" maestro/flows
 
       - name: Upload Maestro Test Report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: maestro-test-report
-          path: |
-            maestro-report.xml
-            ~/.maestro/tests/
+          path: maestro-report.xml
+          if-no-files-found: warn
           retention-days: 7
