@@ -1,0 +1,60 @@
+name: Espresso UI Tests
+
+on:
+  push:
+    branches: [ "**" ]
+
+jobs:
+  espresso-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+
+      - name: Enable KVM group perms
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm-rules.rules
+          sudo udevadm control --reload-rules && sudo udevadm trigger
+
+      - name: Sync Espresso Test Source Set
+        run: |
+          rm -rf techshop/compose-fixed/app/src/androidTest/kotlin/com/techshop/android/*
+          cp -r espresso/src/androidTest/kotlin/com/techshop/android/* techshop/compose-fixed/app/src/androidTest/kotlin/com/techshop/android/
+
+      - name: Pre-build Debug and Test APKs with Gradle
+        working-directory: techshop/compose-fixed
+        run: ./gradlew assembleDebug assembleDebugAndroidTest --no-daemon
+
+      - name: Run Espresso Tests on Android Emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        env:
+          TEST_EMAIL: ${{ secrets.TEST_EMAIL }}
+          TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
+        with:
+          api-level: 33
+          target: google_apis
+          arch: x86_64
+          force-avd-creation: false
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: true
+          script: ./techshop/compose-fixed/gradlew -p techshop/compose-fixed connectedAndroidTest -Pandroid.testInstrumentationRunnerArguments.TEST_EMAIL="$TEST_EMAIL" -Pandroid.testInstrumentationRunnerArguments.TEST_PASSWORD="$TEST_PASSWORD" --no-daemon
+
+      - name: Upload Espresso Test Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: espresso-test-report
+          path: |
+            techshop/compose-fixed/app/build/reports/androidTests/connected/**
+            techshop/compose-fixed/app/build/outputs/androidTest-results/**
+          if-no-files-found: warn
+          retention-days: 7
