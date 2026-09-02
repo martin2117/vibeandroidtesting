@@ -76,11 +76,26 @@ open class BaseUiAutomatorTest {
      */
     protected fun findAndWait(selector: BySelector, timeout: Long = DEFAULT_TIMEOUT): UiObject2? {
         val found = device.wait(Until.hasObject(selector), timeout)
-        return if (found) {
-            device.findObject(selector)
-        } else {
-            null
+        if (found) {
+            return device.findObject(selector)
         }
+        try {
+            val width = device.displayWidth
+            val height = device.displayHeight
+            // Swipe up to scroll down
+            device.swipe(width / 2, (height * 0.75).toInt(), width / 2, (height * 0.25).toInt(), 15)
+            if (device.wait(Until.hasObject(selector), timeout)) {
+                return device.findObject(selector)
+            }
+            // Swipe down to scroll up
+            device.swipe(width / 2, (height * 0.25).toInt(), width / 2, (height * 0.75).toInt(), 15)
+            if (device.wait(Until.hasObject(selector), timeout)) {
+                return device.findObject(selector)
+            }
+        } catch (e: Exception) {
+            // Ignore swipe failures
+        }
+        return null
     }
 
     /**

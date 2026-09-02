@@ -5,6 +5,7 @@ import androidx.compose.ui.test.assertIsFocused
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performTextReplacement
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
@@ -33,13 +34,13 @@ class CheckoutTest : BaseEspressoTest() {
         expiry: String = "12/28",
         cvv: String = "123",
     ) {
-        composeTestRule.onNodeWithTag("checkout-firstName").performTextReplacement(firstName)
-        composeTestRule.onNodeWithTag("checkout-lastName").performTextReplacement(lastName)
-        composeTestRule.onNodeWithTag("checkout-email").performTextReplacement(email)
-        composeTestRule.onNodeWithTag("checkout-phone").performTextReplacement(phone)
-        composeTestRule.onNodeWithTag("checkout-card").performTextReplacement(card)
-        composeTestRule.onNodeWithTag("checkout-expiry").performTextReplacement(expiry)
-        composeTestRule.onNodeWithTag("checkout-cvv").performTextReplacement(cvv)
+        composeTestRule.onNodeWithTag("checkout-firstName").performScrollTo().performTextReplacement(firstName)
+        composeTestRule.onNodeWithTag("checkout-lastName").performScrollTo().performTextReplacement(lastName)
+        composeTestRule.onNodeWithTag("checkout-email").performScrollTo().performTextReplacement(email)
+        composeTestRule.onNodeWithTag("checkout-phone").performScrollTo().performTextReplacement(phone)
+        composeTestRule.onNodeWithTag("checkout-card").performScrollTo().performTextReplacement(card)
+        composeTestRule.onNodeWithTag("checkout-expiry").performScrollTo().performTextReplacement(expiry)
+        composeTestRule.onNodeWithTag("checkout-cvv").performScrollTo().performTextReplacement(cvv)
     }
 
     /**
@@ -58,7 +59,7 @@ class CheckoutTest : BaseEspressoTest() {
         navigateToCheckout("p1")
 
         fillValidCheckoutForm()
-        composeTestRule.onNodeWithTag("checkout-submit").performClick()
+        composeTestRule.onNodeWithTag("checkout-submit").performScrollTo().performClick()
 
         composeTestRule.onNodeWithTag("confirmation-title").assertIsDisplayed()
         composeTestRule.onNodeWithTag("confirmation-order-ref").assertIsDisplayed()
@@ -79,9 +80,9 @@ class CheckoutTest : BaseEspressoTest() {
     fun testTcChk002EmptyFormSubmissionRejection() {
         navigateToCheckout("p1")
 
-        composeTestRule.onNodeWithTag("checkout-submit").performClick()
+        composeTestRule.onNodeWithTag("checkout-submit").performScrollTo().performClick()
 
-        composeTestRule.onNodeWithTag("checkout-error").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("checkout-error").performScrollTo().assertIsDisplayed()
         composeTestRule.onNodeWithTag("confirmation-title").assertDoesNotExist()
     }
 
@@ -101,9 +102,9 @@ class CheckoutTest : BaseEspressoTest() {
         navigateToCheckout("p1")
 
         fillValidCheckoutForm(expiry = "01/20")
-        composeTestRule.onNodeWithTag("checkout-submit").performClick()
+        composeTestRule.onNodeWithTag("checkout-submit").performScrollTo().performClick()
 
-        composeTestRule.onNodeWithTag("checkout-error").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("checkout-error").performScrollTo().assertIsDisplayed()
         composeTestRule.onNodeWithTag("confirmation-title").assertDoesNotExist()
     }
 
@@ -122,12 +123,12 @@ class CheckoutTest : BaseEspressoTest() {
 
         // 15 digits rejected
         fillValidCheckoutForm(card = "411122223333444")
-        composeTestRule.onNodeWithTag("checkout-submit").performClick()
-        composeTestRule.onNodeWithTag("checkout-error").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("checkout-submit").performScrollTo().performClick()
+        composeTestRule.onNodeWithTag("checkout-error").performScrollTo().assertIsDisplayed()
 
         // 16 digits accepted
-        composeTestRule.onNodeWithTag("checkout-card").performTextReplacement("4111222233334444")
-        composeTestRule.onNodeWithTag("checkout-submit").performClick()
+        composeTestRule.onNodeWithTag("checkout-card").performScrollTo().performTextReplacement("4111222233334444")
+        composeTestRule.onNodeWithTag("checkout-submit").performScrollTo().performClick()
         composeTestRule.onNodeWithTag("confirmation-title").assertIsDisplayed()
     }
 
@@ -146,12 +147,12 @@ class CheckoutTest : BaseEspressoTest() {
 
         // 9 digits rejected
         fillValidCheckoutForm(phone = "555123456")
-        composeTestRule.onNodeWithTag("checkout-submit").performClick()
-        composeTestRule.onNodeWithTag("checkout-error").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("checkout-submit").performScrollTo().performClick()
+        composeTestRule.onNodeWithTag("checkout-error").performScrollTo().assertIsDisplayed()
 
         // 10 digits accepted
-        composeTestRule.onNodeWithTag("checkout-phone").performTextReplacement("5551234567")
-        composeTestRule.onNodeWithTag("checkout-submit").performClick()
+        composeTestRule.onNodeWithTag("checkout-phone").performScrollTo().performTextReplacement("5551234567")
+        composeTestRule.onNodeWithTag("checkout-submit").performScrollTo().performClick()
         composeTestRule.onNodeWithTag("confirmation-title").assertIsDisplayed()
     }
 
@@ -172,12 +173,12 @@ class CheckoutTest : BaseEspressoTest() {
 
         // 2 digits rejected
         fillValidCheckoutForm(cvv = "12")
-        composeTestRule.onNodeWithTag("checkout-submit").performClick()
-        composeTestRule.onNodeWithTag("checkout-error").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("checkout-submit").performScrollTo().performClick()
+        composeTestRule.onNodeWithTag("checkout-error").performScrollTo().assertIsDisplayed()
 
         // 3 digits accepted
-        composeTestRule.onNodeWithTag("checkout-cvv").performTextReplacement("123")
-        composeTestRule.onNodeWithTag("checkout-submit").performClick()
+        composeTestRule.onNodeWithTag("checkout-cvv").performScrollTo().performTextReplacement("123")
+        composeTestRule.onNodeWithTag("checkout-submit").performScrollTo().performClick()
         composeTestRule.onNodeWithTag("confirmation-title").assertIsDisplayed()
     }
 
@@ -195,9 +196,9 @@ class CheckoutTest : BaseEspressoTest() {
         navigateToCheckout("p1")
 
         fillValidCheckoutForm(email = "invalid-email-address")
-        composeTestRule.onNodeWithTag("checkout-submit").performClick()
+        composeTestRule.onNodeWithTag("checkout-submit").performScrollTo().performClick()
 
-        composeTestRule.onNodeWithTag("checkout-error").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("checkout-error").performScrollTo().assertIsDisplayed()
         composeTestRule.onNodeWithTag("confirmation-title").assertDoesNotExist()
     }
 
@@ -217,6 +218,7 @@ class CheckoutTest : BaseEspressoTest() {
         navigateToCheckout("p1")
 
         composeTestRule.onNodeWithTag("checkout-cvv")
+            .performScrollTo()
             .performClick()
             .assertIsDisplayed()
             .assertIsFocused()
@@ -237,7 +239,7 @@ class CheckoutTest : BaseEspressoTest() {
         navigateToCheckout("p1")
 
         fillValidCheckoutForm()
-        composeTestRule.onNodeWithTag("checkout-submit").performClick()
+        composeTestRule.onNodeWithTag("checkout-submit").performScrollTo().performClick()
 
         composeTestRule.onNodeWithTag("confirmation-title").assertIsDisplayed()
         composeTestRule.onNodeWithTag("confirmation-order-ref").assertIsDisplayed()
