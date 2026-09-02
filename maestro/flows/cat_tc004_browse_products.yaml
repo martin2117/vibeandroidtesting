@@ -1,0 +1,20 @@
+appId: com.techshop.android
+---
+- launchApp:
+    clearState: true
+- runFlow: ../subflows/login.yaml
+- extendedWaitUntil:
+    visible:
+      id: "name-p1"
+    timeout: 10000
+- assertVisible:
+    id: "name-p1"
+- assertVisible:
+    id: "name-p2"
+- assertVisible:
+    id: "name-p3"
+- scroll
+- assertVisible:
+    id: "name-p4"
+- assertVisible:
+    id: "add-p1"

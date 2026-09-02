@@ -1,7 +1,10 @@
 .env
+.env*
 .env.local
+.env-local
 *.log
 node_modules/
+.expo/
 # Android build output
 .gradle/
 build/
@@ -13,3 +16,4 @@ local.properties
 __pycache__/
 .pytest_cache/
 .venv/
+

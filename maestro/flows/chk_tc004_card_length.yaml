@@ -1,0 +1,44 @@
+appId: com.techshop.android
+---
+# TC-CHK-004: Card number 16-digit length constraint
+# Dependency: Blocked by BUG-011 on broken build (unresponsive Proceed to Checkout button).
+# Can only execute on fixed build.
+- launchApp:
+    clearState: true
+- runFlow: ../subflows/checkout_setup.yaml
+- tapOn:
+    id: "checkout-firstName"
+- inputText: "Jane"
+- tapOn:
+    id: "checkout-lastName"
+- inputText: "Doe"
+- tapOn:
+    id: "checkout-email"
+- inputText: "jane.doe@example.com"
+- tapOn:
+    id: "checkout-phone"
+- inputText: "5551234567"
+- hideKeyboard
+- scroll
+- tapOn:
+    id: "checkout-card"
+- inputText: "411122223333444"
+- hideKeyboard
+- tapOn:
+    id: "checkout-expiry"
+- inputText: "12/28"
+- hideKeyboard
+- tapOn:
+    id: "checkout-cvv"
+- inputText: "123"
+- hideKeyboard
+- scroll
+- tapOn:
+    id: "checkout-submit"
+- extendedWaitUntil:
+    visible:
+      id: "checkout-error"
+    timeout: 10000
+- assertVisible:
+    id: "checkout-error"
+    text: ".*16 digits.*"

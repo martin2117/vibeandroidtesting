@@ -1,0 +1,19 @@
+appId: com.techshop.android
+---
+- extendedWaitUntil:
+    visible:
+      id: "login-email"
+    timeout: 10000
+- tapOn:
+    id: "login-email"
+- inputText: ${EMAIL || 'demo@techshop.com'}
+- tapOn:
+    id: "login-password"
+- inputText: ${PASSWORD || 'password123'}
+- hideKeyboard
+- tapOn:
+    text: "Log In"
+- extendedWaitUntil:
+    visible:
+      id: "catalog-title"
+    timeout: 10000

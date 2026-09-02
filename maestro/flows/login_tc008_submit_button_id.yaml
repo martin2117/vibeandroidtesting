@@ -1,0 +1,10 @@
+appId: com.techshop.android
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: "login-email"
+    timeout: 10000
+- assertVisible:
+    id: "login-submit"

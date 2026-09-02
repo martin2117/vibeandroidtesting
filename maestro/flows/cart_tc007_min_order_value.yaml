@@ -1,0 +1,13 @@
+appId: com.techshop.android
+---
+- launchApp:
+    clearState: true
+- runFlow: ../subflows/login.yaml
+- tapOn:
+    id: "tab-cart"
+- extendedWaitUntil:
+    visible:
+      id: "cart-empty"
+    timeout: 10000
+- assertVisible:
+    id: "cart-empty"

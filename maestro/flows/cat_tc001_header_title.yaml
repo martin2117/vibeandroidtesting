@@ -1,0 +1,12 @@
+appId: com.techshop.android
+---
+- launchApp:
+    clearState: true
+- runFlow: ../subflows/login.yaml
+- extendedWaitUntil:
+    visible:
+      id: "catalog-title"
+    timeout: 10000
+- assertVisible:
+    id: "catalog-title"
+    text: ".*Products.*"

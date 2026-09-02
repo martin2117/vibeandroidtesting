@@ -1,0 +1,12 @@
+appId: com.techshop.android
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: "login-email"
+    timeout: 10000
+- assertNotVisible:
+    id: "tab-products"
+- assertNotVisible:
+    id: "tab-cart"

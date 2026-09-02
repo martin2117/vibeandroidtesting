@@ -1,0 +1,20 @@
+appId: com.techshop.android
+---
+# Subflow: Setup and navigation to Checkout screen
+# Dependency Note: Navigation from Cart to Checkout is blocked on the broken build by BUG-011
+# (unresponsive "Proceed to Checkout" button) and requires the fixed build to reach the Checkout screen.
+- runFlow: login.yaml
+- tapOn:
+    id: "add-p1"
+- tapOn:
+    id: "tab-cart"
+- extendedWaitUntil:
+    visible:
+      id: "proceed-checkout"
+    timeout: 10000
+- tapOn:
+    id: "proceed-checkout"
+- extendedWaitUntil:
+    visible:
+      id: "checkout-firstName"
+    timeout: 10000

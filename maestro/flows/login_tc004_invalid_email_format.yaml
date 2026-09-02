@@ -1,0 +1,23 @@
+appId: com.techshop.android
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: "login-email"
+    timeout: 10000
+- tapOn:
+    id: "login-email"
+- inputText: "invalid-email-format"
+- tapOn:
+    id: "login-password"
+- inputText: "password123"
+- hideKeyboard
+- tapOn:
+    text: "Log In"
+- extendedWaitUntil:
+    visible:
+      id: "login-error"
+    timeout: 10000
+- assertVisible:
+    id: "login-error"

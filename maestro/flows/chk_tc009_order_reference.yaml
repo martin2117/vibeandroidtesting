@@ -1,0 +1,45 @@
+appId: com.techshop.android
+---
+# TC-CHK-009: Prominent order reference display on Confirmation screen
+# Dependency: Blocked by BUG-011 on broken build (unresponsive Proceed to Checkout button).
+# Also covers BUG-013 (missing order reference number in UI). Can only execute on fixed build.
+- launchApp:
+    clearState: true
+- runFlow: ../subflows/checkout_setup.yaml
+- tapOn:
+    id: "checkout-firstName"
+- inputText: "Jane"
+- tapOn:
+    id: "checkout-lastName"
+- inputText: "Doe"
+- tapOn:
+    id: "checkout-email"
+- inputText: "jane.doe@example.com"
+- tapOn:
+    id: "checkout-phone"
+- inputText: "5551234567"
+- hideKeyboard
+- scroll
+- tapOn:
+    id: "checkout-card"
+- inputText: "4111222233334444"
+- hideKeyboard
+- tapOn:
+    id: "checkout-expiry"
+- inputText: "12/28"
+- hideKeyboard
+- tapOn:
+    id: "checkout-cvv"
+- inputText: "123"
+- hideKeyboard
+- scroll
+- tapOn:
+    id: "checkout-submit"
+- extendedWaitUntil:
+    visible:
+      id: "confirmation-title"
+    timeout: 10000
+- assertVisible:
+    id: "confirmation-title"
+- assertVisible:
+    text: ".*TS-\\d{6}.*"

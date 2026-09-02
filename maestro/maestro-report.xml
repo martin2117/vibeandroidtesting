@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<testsuites>
+  <testsuite name="Test Suite" device="Pixel_7_API_34" tests="25" failures="17" time="768.175" timestamp="2026-09-02T20:08:59">
+    <testcase id="chk_tc004_card_length" name="chk_tc004_card_length" classname="chk_tc004_card_length" file="maestro/flows/chk_tc004_card_length.yaml" time="35.31" timestamp="2026-09-02T20:08:59" status="ERROR">
+      <failure>Assertion is false: id: checkout-firstName is visible</failure>
+    </testcase>
+    <testcase id="login_tc004_invalid_email_format" name="login_tc004_invalid_email_format" classname="login_tc004_invalid_email_format" file="maestro/flows/login_tc004_invalid_email_format.yaml" time="36.512" timestamp="2026-09-02T20:09:35" status="ERROR">
+      <failure>Assertion is false: id: login-error is visible</failure>
+    </testcase>
+    <testcase id="cart_tc007_min_order_value" name="cart_tc007_min_order_value" classname="cart_tc007_min_order_value" file="maestro/flows/cart_tc007_min_order_value.yaml" time="26.324" timestamp="2026-09-02T20:10:11" status="SUCCESS"/>
+    <testcase id="login_tc006_unauthenticated_tab_gating" name="login_tc006_unauthenticated_tab_gating" classname="login_tc006_unauthenticated_tab_gating" file="maestro/flows/login_tc006_unauthenticated_tab_gating.yaml" time="3.102" timestamp="2026-09-02T20:10:38" status="SUCCESS"/>
+    <testcase id="cart_tc001_empty_state" name="cart_tc001_empty_state" classname="cart_tc001_empty_state" file="maestro/flows/cart_tc001_empty_state.yaml" time="20.487" timestamp="2026-09-02T20:10:41" status="SUCCESS"/>
+    <testcase id="chk_tc007_invalid_email" name="chk_tc007_invalid_email" classname="chk_tc007_invalid_email" file="maestro/flows/chk_tc007_invalid_email.yaml" time="34.856" timestamp="2026-09-02T20:11:01" status="ERROR">
+      <failure>Assertion is false: id: checkout-firstName is visible</failure>
+    </testcase>
+    <testcase id="chk_tc001_e2e_checkout" name="chk_tc001_e2e_checkout" classname="chk_tc001_e2e_checkout" file="maestro/flows/chk_tc001_e2e_checkout.yaml" time="35.045" timestamp="2026-09-02T20:11:36" status="ERROR">
+      <failure>Assertion is false: id: checkout-firstName is visible</failure>
+    </testcase>
+    <testcase id="cart_tc006_apply_discount" name="cart_tc006_apply_discount" classname="cart_tc006_apply_discount" file="maestro/flows/cart_tc006_apply_discount.yaml" time="49.764" timestamp="2026-09-02T20:12:11" status="ERROR">
+      <failure>Assertion is false: ".*108\.00.*", id: order-total is visible</failure>
+    </testcase>
+    <testcase id="login_tc007_session_persistence" name="login_tc007_session_persistence" classname="login_tc007_session_persistence" file="maestro/flows/login_tc007_session_persistence.yaml" time="23.258" timestamp="2026-09-02T20:13:01" status="SUCCESS"/>
+    <testcase id="cat_tc004_browse_products" name="cat_tc004_browse_products" classname="cat_tc004_browse_products" file="maestro/flows/cat_tc004_browse_products.yaml" time="18.517" timestamp="2026-09-02T20:13:24" status="SUCCESS"/>
+    <testcase id="cart_tc009_invalid_discount" name="cart_tc009_invalid_discount" classname="cart_tc009_invalid_discount" file="maestro/flows/cart_tc009_invalid_discount.yaml" time="32.227" timestamp="2026-09-02T20:13:43" status="SUCCESS"/>
+    <testcase id="cart_tc008_proceed_checkout" name="cart_tc008_proceed_checkout" classname="cart_tc008_proceed_checkout" file="maestro/flows/cart_tc008_proceed_checkout.yaml" time="40.317" timestamp="2026-09-02T20:14:15" status="ERROR">
+      <failure>Assertion is false: id: checkout-firstName is visible</failure>
+    </testcase>
+    <testcase id="cart_tc003_increment_quantity" name="cart_tc003_increment_quantity" classname="cart_tc003_increment_quantity" file="maestro/flows/cart_tc003_increment_quantity.yaml" time="40.976" timestamp="2026-09-02T20:14:55" status="ERROR">
+      <failure>Assertion is false: ".*120\.00.*", id: order-total is visible</failure>
+    </testcase>
+    <testcase id="login_tc001_valid_credentials" name="login_tc001_valid_credentials" classname="login_tc001_valid_credentials" file="maestro/flows/login_tc001_valid_credentials.yaml" time="17.735" timestamp="2026-09-02T20:15:36" status="SUCCESS"/>
+    <testcase id="login_tc008_submit_button_id" name="login_tc008_submit_button_id" classname="login_tc008_submit_button_id" file="maestro/flows/login_tc008_submit_button_id.yaml" time="17.983" timestamp="2026-09-02T20:15:54" status="ERROR">
+      <failure>Assertion is false: id: login-submit is visible</failure>
+    </testcase>
+    <testcase id="cart_tc002_add_product" name="cart_tc002_add_product" classname="cart_tc002_add_product" file="maestro/flows/cart_tc002_add_product.yaml" time="22.491" timestamp="2026-09-02T20:16:12" status="SUCCESS"/>
+    <testcase id="cart_tc005_remove_item" name="cart_tc005_remove_item" classname="cart_tc005_remove_item" file="maestro/flows/cart_tc005_remove_item.yaml" time="42.963" timestamp="2026-09-02T20:16:34" status="ERROR">
+      <failure>Assertion is false: ".*90\.00.*", id: order-total is visible</failure>
+    </testcase>
+    <testcase id="chk_tc009_order_reference" name="chk_tc009_order_reference" classname="chk_tc009_order_reference" file="maestro/flows/chk_tc009_order_reference.yaml" time="33.952" timestamp="2026-09-02T20:17:17" status="ERROR">
+      <failure>Assertion is false: id: checkout-firstName is visible</failure>
+    </testcase>
+    <testcase id="cat_tc001_header_title" name="cat_tc001_header_title" classname="cat_tc001_header_title" file="maestro/flows/cat_tc001_header_title.yaml" time="35.349" timestamp="2026-09-02T20:17:51" status="ERROR">
+      <failure>Assertion is false: ".*Products.*", id: catalog-title is visible</failure>
+    </testcase>
+    <testcase id="chk_tc002_empty_submission" name="chk_tc002_empty_submission" classname="chk_tc002_empty_submission" file="maestro/flows/chk_tc002_empty_submission.yaml" time="33.601" timestamp="2026-09-02T20:18:27" status="ERROR">
+      <failure>Assertion is false: id: checkout-firstName is visible</failure>
+    </testcase>
+    <testcase id="chk_tc003_expired_card" name="chk_tc003_expired_card" classname="chk_tc003_expired_card" file="maestro/flows/chk_tc003_expired_card.yaml" time="34.041" timestamp="2026-09-02T20:19:00" status="ERROR">
+      <failure>Assertion is false: id: checkout-firstName is visible</failure>
+    </testcase>
+    <testcase id="login_tc002_empty_credentials" name="login_tc002_empty_credentials" classname="login_tc002_empty_credentials" file="maestro/flows/login_tc002_empty_credentials.yaml" time="21.717" timestamp="2026-09-02T20:19:34" status="ERROR">
+      <failure>Assertion is false: id: login-error is visible</failure>
+    </testcase>
+    <testcase id="chk_tc005_phone_length" name="chk_tc005_phone_length" classname="chk_tc005_phone_length" file="maestro/flows/chk_tc005_phone_length.yaml" time="34.463" timestamp="2026-09-02T20:19:56" status="ERROR">
+      <failure>Assertion is false: id: checkout-firstName is visible</failure>
+    </testcase>
+    <testcase id="cart_tc004_decrement_boundary" name="cart_tc004_decrement_boundary" classname="cart_tc004_decrement_boundary" file="maestro/flows/cart_tc004_decrement_boundary.yaml" time="41.832" timestamp="2026-09-02T20:20:31" status="ERROR">
+      <failure>Assertion is false: ".*1.*", id: qty-p1 is visible</failure>
+    </testcase>
+    <testcase id="login_tc003_invalid_password" name="login_tc003_invalid_password" classname="login_tc003_invalid_password" file="maestro/flows/login_tc003_invalid_password.yaml" time="35.208" timestamp="2026-09-02T20:21:12" status="ERROR">
+      <failure>Assertion is false: id: login-error is visible</failure>
+    </testcase>
+  </testsuite>
+</testsuites>

@@ -1,0 +1,22 @@
+appId: com.techshop.android
+---
+- launchApp:
+    clearState: true
+- runFlow: ../subflows/login.yaml
+- tapOn:
+    id: "add-p1"
+- tapOn:
+    id: "tab-cart"
+- extendedWaitUntil:
+    visible:
+      id: "discount-input"
+    timeout: 10000
+- tapOn:
+    id: "discount-input"
+- inputText: "INVALIDCODE99"
+- hideKeyboard
+- tapOn:
+    id: "apply-discount"
+- assertVisible:
+    id: "order-total"
+    text: ".*60\\.00.*"

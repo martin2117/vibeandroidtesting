@@ -1,0 +1,21 @@
+appId: com.techshop.android
+---
+- launchApp:
+    clearState: true
+- runFlow: ../subflows/login.yaml
+- tapOn:
+    id: "add-p1"
+- tapOn:
+    id: "tab-cart"
+- extendedWaitUntil:
+    visible:
+      id: "order-total"
+    timeout: 10000
+- assertVisible:
+    text: "Wireless Headphones"
+- assertVisible:
+    id: "qty-p1"
+    text: ".*1.*"
+- assertVisible:
+    id: "order-total"
+    text: ".*60\\.00.*"

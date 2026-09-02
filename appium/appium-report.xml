@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="22" skipped="0" tests="30" time="359.399" timestamp="2026-09-02T20:21:52.267420+02:00" hostname="Mac--Mac-mini.local"><testcase classname="tests.test_cart" name="test_tc_cart_001_empty_cart_state" time="9.428" /><testcase classname="tests.test_cart" name="test_tc_cart_002_add_product_and_verify_cart" time="8.725" /><testcase classname="tests.test_cart" name="test_tc_cart_003_increment_quantity_reactive_total" time="9.007"><failure message="AssertionError: Expected order total to update to 'Total: $120.00', but got 'Total: $60.00' (BUG-006: total not updating due to unkeyed remember).&#10;assert 'Total: $60.00' == 'Total: $120.00'&#10;  &#10;  - Total: $120.00&#10;  ?         ^^&#10;  + Total: $60.00&#10;  ?         ^">tests/test_cart.py:55: in test_tc_cart_003_increment_quantity_reactive_total
+    assert actual_total == "Total: $120.00", (
+E   AssertionError: Expected order total to update to 'Total: $120.00', but got 'Total: $60.00' (BUG-006: total not updating due to unkeyed remember).
+E   assert 'Total: $60.00' == 'Total: $120.00'
+E     
+E     - Total: $120.00
+E     ?         ^^
+E     + Total: $60.00
+E     ?         ^</failure></testcase><testcase classname="tests.test_cart" name="test_tc_cart_004_decrement_quantity_boundary" time="8.526"><failure message="AssertionError: Expected quantity to remain clamped at minimum 1, but got '0' (BUG-005: negative/zero quantity allowed on decrement).&#10;assert ('0' == '1'&#10;  &#10;  - 1&#10;  + 0 or 0 &gt;= 1)&#10; +  where 0 = int('0')">tests/test_cart.py:72: in test_tc_cart_004_decrement_quantity_boundary
+    assert qty == "1" or int(qty) &gt;= 1, (
+E   AssertionError: Expected quantity to remain clamped at minimum 1, but got '0' (BUG-005: negative/zero quantity allowed on decrement).
+E   assert ('0' == '1'
+E     
+E     - 1
+E     + 0 or 0 &gt;= 1)
+E    +  where 0 = int('0')</failure></testcase><testcase classname="tests.test_cart" name="test_tc_cart_005_remove_item_from_cart" time="12.535"><failure message="AssertionError: Expected 'Total: $90.00', but got 'Total: $150.00'&#10;assert 'Total: $150.00' == 'Total: $90.00'&#10;  &#10;  - Total: $90.00&#10;  ?         ^&#10;  + Total: $150.00&#10;  ?         ^^">tests/test_cart.py:97: in test_tc_cart_005_remove_item_from_cart
+    assert cart_page.get_order_total_text() == "Total: $90.00", (
+E   AssertionError: Expected 'Total: $90.00', but got 'Total: $150.00'
+E   assert 'Total: $150.00' == 'Total: $90.00'
+E     
+E     - Total: $90.00
+E     ?         ^
+E     + Total: $150.00
+E     ?         ^^</failure></testcase><testcase classname="tests.test_cart" name="test_tc_cart_006_percentage_discount_application" time="9.563"><failure message="AssertionError: Expected 'Total: $108.00' with 10% discount, but got 'Total: $60.00' (BUG-004: discount divided by 1000.0 / BUG-006: unkeyed remember total).&#10;assert 'Total: $60.00' == 'Total: $108.00'&#10;  &#10;  - Total: $108.00&#10;  ?         ^ -&#10;  + Total: $60.00&#10;  ?         ^">tests/test_cart.py:114: in test_tc_cart_006_percentage_discount_application
+    assert actual_total == "Total: $108.00", (
+E   AssertionError: Expected 'Total: $108.00' with 10% discount, but got 'Total: $60.00' (BUG-004: discount divided by 1000.0 / BUG-006: unkeyed remember total).
+E   assert 'Total: $60.00' == 'Total: $108.00'
+E     
+E     - Total: $108.00
+E     ?         ^ -
+E     + Total: $60.00
+E     ?         ^</failure></testcase><testcase classname="tests.test_cart" name="test_tc_cart_007_minimum_order_value_enforcement" time="7.614" /><testcase classname="tests.test_cart" name="test_tc_cart_008_transition_to_checkout" time="10.993"><failure message="AssertionError: Expected transition to Checkout screen (checkout-firstName), but remained on Cart (BUG-011: Proceed button is a no-op blocker defect).&#10;assert False&#10; +  where False = is_checkout_screen_reached()&#10; +    where is_checkout_screen_reached = &lt;pages.cart_page.CartPage object at 0x1090af700&gt;.is_checkout_screen_reached">tests/test_cart.py:146: in test_tc_cart_008_transition_to_checkout
+    assert cart_page.is_checkout_screen_reached(), (
+E   AssertionError: Expected transition to Checkout screen (checkout-firstName), but remained on Cart (BUG-011: Proceed button is a no-op blocker defect).
+E   assert False
+E    +  where False = is_checkout_screen_reached()
+E    +    where is_checkout_screen_reached = &lt;pages.cart_page.CartPage object at 0x1090af700&gt;.is_checkout_screen_reached</failure></testcase><testcase classname="tests.test_cart" name="test_tc_cart_009_invalid_discount_code" time="8.847" /><testcase classname="tests.test_checkout" name="test_tc_chk_001_e2e_successful_checkout" time="19.274"><failure message="AssertionError: Expected to reach Checkout screen (blocked by BUG-011 on broken build).&#10;assert False&#10; +  where False = is_on_checkout_screen()&#10; +    where is_on_checkout_screen = &lt;pages.checkout_page.CheckoutPage object at 0x109087340&gt;.is_on_checkout_screen">tests/test_checkout.py:25: in test_tc_chk_001_e2e_successful_checkout
+    assert checkout_page.is_on_checkout_screen(), (
+E   AssertionError: Expected to reach Checkout screen (blocked by BUG-011 on broken build).
+E   assert False
+E    +  where False = is_on_checkout_screen()
+E    +    where is_on_checkout_screen = &lt;pages.checkout_page.CheckoutPage object at 0x109087340&gt;.is_on_checkout_screen</failure></testcase><testcase classname="tests.test_checkout" name="test_tc_chk_002_empty_form_submission_rejection" time="18.669"><failure message="AssertionError: Expected to reach Checkout screen (blocked by BUG-011 on broken build).&#10;assert False&#10; +  where False = is_on_checkout_screen()&#10; +    where is_on_checkout_screen = &lt;pages.checkout_page.CheckoutPage object at 0x109089e20&gt;.is_on_checkout_screen">tests/test_checkout.py:53: in test_tc_chk_002_empty_form_submission_rejection
+    assert checkout_page.is_on_checkout_screen(), (
+E   AssertionError: Expected to reach Checkout screen (blocked by BUG-011 on broken build).
+E   assert False
+E    +  where False = is_on_checkout_screen()
+E    +    where is_on_checkout_screen = &lt;pages.checkout_page.CheckoutPage object at 0x109089e20&gt;.is_on_checkout_screen</failure></testcase><testcase classname="tests.test_checkout" name="test_tc_chk_003_expired_card_rejection" time="19.379"><failure message="AssertionError: Expected to reach Checkout screen (blocked by BUG-011 on broken build).&#10;assert False&#10; +  where False = is_on_checkout_screen()&#10; +    where is_on_checkout_screen = &lt;pages.checkout_page.CheckoutPage object at 0x109089730&gt;.is_on_checkout_screen">tests/test_checkout.py:75: in test_tc_chk_003_expired_card_rejection
+    assert checkout_page.is_on_checkout_screen(), (
+E   AssertionError: Expected to reach Checkout screen (blocked by BUG-011 on broken build).
+E   assert False
+E    +  where False = is_on_checkout_screen()
+E    +    where is_on_checkout_screen = &lt;pages.checkout_page.CheckoutPage object at 0x109089730&gt;.is_on_checkout_screen</failure></testcase><testcase classname="tests.test_checkout" name="test_tc_chk_004_card_number_length_constraint" time="18.363"><failure message="AssertionError: Expected to reach Checkout screen (blocked by BUG-011 on broken build).&#10;assert False&#10; +  where False = is_on_checkout_screen()&#10; +    where is_on_checkout_screen = &lt;pages.checkout_page.CheckoutPage object at 0x108fcbf10&gt;.is_on_checkout_screen">tests/test_checkout.py:102: in test_tc_chk_004_card_number_length_constraint
+    assert checkout_page.is_on_checkout_screen(), (
+E   AssertionError: Expected to reach Checkout screen (blocked by BUG-011 on broken build).
+E   assert False
+E    +  where False = is_on_checkout_screen()
+E    +    where is_on_checkout_screen = &lt;pages.checkout_page.CheckoutPage object at 0x108fcbf10&gt;.is_on_checkout_screen</failure></testcase><testcase classname="tests.test_checkout" name="test_tc_chk_005_phone_number_length_constraint" time="18.717"><failure message="AssertionError: Expected to reach Checkout screen (blocked by BUG-011 on broken build).&#10;assert False&#10; +  where False = is_on_checkout_screen()&#10; +    where is_on_checkout_screen = &lt;pages.checkout_page.CheckoutPage object at 0x109085250&gt;.is_on_checkout_screen">tests/test_checkout.py:129: in test_tc_chk_005_phone_number_length_constraint
+    assert checkout_page.is_on_checkout_screen(), (
+E   AssertionError: Expected to reach Checkout screen (blocked by BUG-011 on broken build).
+E   assert False
+E    +  where False = is_on_checkout_screen()
+E    +    where is_on_checkout_screen = &lt;pages.checkout_page.CheckoutPage object at 0x109085250&gt;.is_on_checkout_screen</failure></testcase><testcase classname="tests.test_checkout" name="test_tc_chk_006_cvv_numeric_and_length_constraint" time="18.704"><failure message="AssertionError: Expected to reach Checkout screen (blocked by BUG-011 on broken build).&#10;assert False&#10; +  where False = is_on_checkout_screen()&#10; +    where is_on_checkout_screen = &lt;pages.checkout_page.CheckoutPage object at 0x109077e20&gt;.is_on_checkout_screen">tests/test_checkout.py:156: in test_tc_chk_006_cvv_numeric_and_length_constraint
+    assert checkout_page.is_on_checkout_screen(), (
+E   AssertionError: Expected to reach Checkout screen (blocked by BUG-011 on broken build).
+E   assert False
+E    +  where False = is_on_checkout_screen()
+E    +    where is_on_checkout_screen = &lt;pages.checkout_page.CheckoutPage object at 0x109077e20&gt;.is_on_checkout_screen</failure></testcase><testcase classname="tests.test_checkout" name="test_tc_chk_007_invalid_email_format_rejection" time="18.623"><failure message="AssertionError: Expected to reach Checkout screen (blocked by BUG-011 on broken build).&#10;assert False&#10; +  where False = is_on_checkout_screen()&#10; +    where is_on_checkout_screen = &lt;pages.checkout_page.CheckoutPage object at 0x109085b20&gt;.is_on_checkout_screen">tests/test_checkout.py:183: in test_tc_chk_007_invalid_email_format_rejection
+    assert checkout_page.is_on_checkout_screen(), (
+E   AssertionError: Expected to reach Checkout screen (blocked by BUG-011 on broken build).
+E   assert False
+E    +  where False = is_on_checkout_screen()
+E    +    where is_on_checkout_screen = &lt;pages.checkout_page.CheckoutPage object at 0x109085b20&gt;.is_on_checkout_screen</failure></testcase><testcase classname="tests.test_checkout" name="test_tc_chk_008_ime_padding_cvv_visibility" time="18.620"><failure message="AssertionError: Expected to reach Checkout screen (blocked by BUG-011 on broken build).&#10;assert False&#10; +  where False = is_on_checkout_screen()&#10; +    where is_on_checkout_screen = &lt;pages.checkout_page.CheckoutPage object at 0x1090ad4f0&gt;.is_on_checkout_screen">tests/test_checkout.py:210: in test_tc_chk_008_ime_padding_cvv_visibility
+    assert checkout_page.is_on_checkout_screen(), (
+E   AssertionError: Expected to reach Checkout screen (blocked by BUG-011 on broken build).
+E   assert False
+E    +  where False = is_on_checkout_screen()
+E    +    where is_on_checkout_screen = &lt;pages.checkout_page.CheckoutPage object at 0x1090ad4f0&gt;.is_on_checkout_screen</failure></testcase><testcase classname="tests.test_checkout" name="test_tc_chk_009_order_reference_display_on_confirmation" time="18.530"><failure message="AssertionError: Expected to reach Checkout screen (blocked by BUG-011 on broken build).&#10;assert False&#10; +  where False = is_on_checkout_screen()&#10; +    where is_on_checkout_screen = &lt;pages.checkout_page.CheckoutPage object at 0x1090d97c0&gt;.is_on_checkout_screen">tests/test_checkout.py:229: in test_tc_chk_009_order_reference_display_on_confirmation
+    assert checkout_page.is_on_checkout_screen(), (
+E   AssertionError: Expected to reach Checkout screen (blocked by BUG-011 on broken build).
+E   assert False
+E    +  where False = is_on_checkout_screen()
+E    +    where is_on_checkout_screen = &lt;pages.checkout_page.CheckoutPage object at 0x1090d97c0&gt;.is_on_checkout_screen</failure></testcase><testcase classname="tests.test_general" name="test_tc_cat_001_header_title" time="6.800"><failure message="AssertionError: Expected catalog header to display 'Products', but got 'Untitled' (BUG-014: catalog title displays 'Untitled').&#10;assert 'Untitled' == 'Products'&#10;  &#10;  - Products&#10;  + Untitled">tests/test_general.py:20: in test_tc_cat_001_header_title
+    assert actual_title == "Products", (
+E   AssertionError: Expected catalog header to display 'Products', but got 'Untitled' (BUG-014: catalog title displays 'Untitled').
+E   assert 'Untitled' == 'Products'
+E     
+E     - Products
+E     + Untitled</failure></testcase><testcase classname="tests.test_general" name="test_tc_cat_002_product_name_truncation" time="7.394"><failure message="AssertionError: Expected product title to be constrained with maxLines/truncation, but height was 189px (BUG-007: long name overflows cell layout).&#10;assert 189 &lt;= 120">tests/test_general.py:40: in test_tc_cat_002_product_name_truncation
+    assert rect["height"] &lt;= 120, (
+E   AssertionError: Expected product title to be constrained with maxLines/truncation, but height was 189px (BUG-007: long name overflows cell layout).
+E   assert 189 &lt;= 120</failure></testcase><testcase classname="tests.test_general" name="test_tc_cat_003_out_of_stock_badge_and_state" time="7.368" /><testcase classname="tests.test_general" name="test_tc_cat_004_browse_catalog_products" time="7.421" /><testcase classname="tests.test_login" name="test_tc_login_001_valid_credentials" time="7.152" /><testcase classname="tests.test_login" name="test_tc_login_002_empty_credentials_rejection" time="10.097"><failure message="AssertionError: Expected inline error message (login-error) when submitting empty credentials.&#10;assert False&#10; +  where False = is_error_displayed()&#10; +    where is_error_displayed = &lt;pages.login_page.LoginPage object at 0x1090c4c70&gt;.is_error_displayed">tests/test_login.py:40: in test_tc_login_002_empty_credentials_rejection
+    assert login_page.is_error_displayed(), (
+E   AssertionError: Expected inline error message (login-error) when submitting empty credentials.
+E   assert False
+E    +  where False = is_error_displayed()
+E    +    where is_error_displayed = &lt;pages.login_page.LoginPage object at 0x1090c4c70&gt;.is_error_displayed</failure></testcase><testcase classname="tests.test_login" name="test_tc_login_003_invalid_password_rejection" time="10.586"><failure message="AssertionError: Expected error message (login-error) when submitting invalid password.&#10;assert False&#10; +  where False = is_error_displayed()&#10; +    where is_error_displayed = &lt;pages.login_page.LoginPage object at 0x1090c45b0&gt;.is_error_displayed">tests/test_login.py:61: in test_tc_login_003_invalid_password_rejection
+    assert login_page.is_error_displayed(), (
+E   AssertionError: Expected error message (login-error) when submitting invalid password.
+E   assert False
+E    +  where False = is_error_displayed()
+E    +    where is_error_displayed = &lt;pages.login_page.LoginPage object at 0x1090c45b0&gt;.is_error_displayed</failure></testcase><testcase classname="tests.test_login" name="test_tc_login_004_invalid_email_format_rejection" time="10.024"><failure message="AssertionError: Expected format validation error (login-error) for invalid email format.&#10;assert False&#10; +  where False = is_error_displayed()&#10; +    where is_error_displayed = &lt;pages.login_page.LoginPage object at 0x1090c47c0&gt;.is_error_displayed">tests/test_login.py:82: in test_tc_login_004_invalid_email_format_rejection
+    assert login_page.is_error_displayed(), (
+E   AssertionError: Expected format validation error (login-error) for invalid email format.
+E   assert False
+E    +  where False = is_error_displayed()
+E    +    where is_error_displayed = &lt;pages.login_page.LoginPage object at 0x1090c47c0&gt;.is_error_displayed</failure></testcase><testcase classname="tests.test_login" name="test_tc_login_005_password_input_masking" time="5.697"><failure message="AssertionError: Expected password field to have masked input attribute (password='true'), but got password='false' (BUG-001: plaintext password entry).&#10;assert 'false' == 'true'&#10;  &#10;  - true&#10;  + false">tests/test_login.py:104: in test_tc_login_005_password_input_masking
+    assert is_masked == "true", (
+E   AssertionError: Expected password field to have masked input attribute (password='true'), but got password='false' (BUG-001: plaintext password entry).
+E   assert 'false' == 'true'
+E     
+E     - true
+E     + false</failure></testcase><testcase classname="tests.test_login" name="test_tc_login_006_unauthenticated_tab_bar_gating" time="5.528"><failure message="AssertionError: Expected 'tab-products' to be hidden on Login screen before authentication (BUG-015).&#10;assert not True&#10; +  where True = is_tab_products_visible()&#10; +    where is_tab_products_visible = &lt;pages.login_page.LoginPage object at 0x1090d9ca0&gt;.is_tab_products_visible">tests/test_login.py:118: in test_tc_login_006_unauthenticated_tab_bar_gating
+    assert not login_page.is_tab_products_visible(), (
+E   AssertionError: Expected 'tab-products' to be hidden on Login screen before authentication (BUG-015).
+E   assert not True
+E    +  where True = is_tab_products_visible()
+E    +    where is_tab_products_visible = &lt;pages.login_page.LoginPage object at 0x1090d9ca0&gt;.is_tab_products_visible</failure></testcase><testcase classname="tests.test_login" name="test_tc_login_007_session_persistence" time="18.918" /><testcase classname="tests.test_login" name="test_tc_login_008_login_button_testability_identifier" time="8.146"><failure message="AssertionError: Expected 'Log In' button to expose a dedicated resource-id / testTag ('login-submit'), but got resource-id='null' (BUG-016: missing testTag on Log In button).&#10;assert False">tests/test_login.py:165: in test_tc_login_008_login_button_testability_identifier
+    assert has_valid_id, (
+E   AssertionError: Expected 'Log In' button to expose a dedicated resource-id / testTag ('login-submit'), but got resource-id='null' (BUG-016: missing testTag on Log In button).
+E   assert False</failure></testcase></testsuite></testsuites>

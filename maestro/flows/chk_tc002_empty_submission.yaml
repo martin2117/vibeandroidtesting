@@ -1,0 +1,17 @@
+appId: com.techshop.android
+---
+# TC-CHK-002: Rejection of empty checkout form submission
+# Dependency: Blocked by BUG-011 on broken build (unresponsive Proceed to Checkout button).
+# Also covers BUG-012 (empty form submission bypasses validation). Can only execute on fixed build.
+- launchApp:
+    clearState: true
+- runFlow: ../subflows/checkout_setup.yaml
+- tapOn:
+    id: "checkout-submit"
+- extendedWaitUntil:
+    visible:
+      id: "checkout-error"
+    timeout: 10000
+- assertVisible:
+    id: "checkout-error"
+    text: ".*All fields are required.*"

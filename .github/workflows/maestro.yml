@@ -1,0 +1,83 @@
+name: Maestro UI Tests
+
+on:
+  push:
+    branches: [ "**" ]
+
+jobs:
+  maestro-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: 'techshop/reactnative-fixed/package.json'
+
+      - name: Enable KVM group perms
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm-rules.rules
+          sudo udevadm control --reload-rules && sudo udevadm trigger
+
+      - name: Install App Dependencies & Prebuild Android
+        working-directory: techshop/reactnative-fixed
+        run: |
+          npm install
+          npx expo prebuild --platform android --clean
+
+      - name: Build Debug APK with Gradle
+        working-directory: techshop/reactnative-fixed/android
+        run: ./gradlew assembleDebug --no-daemon
+
+      - name: Install Maestro CLI
+        run: |
+          curl -fsSL "https://get.maestro.mobile.dev" | bash
+          echo "$HOME/.maestro/bin" >> $GITHUB_PATH
+
+      - name: Run Maestro Tests on Android Emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        env:
+          TEST_EMAIL: ${{ secrets.TEST_EMAIL }}
+          TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
+        with:
+          api-level: 33
+          target: google_apis
+          arch: x86_64
+          force-avd-creation: false
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: true
+          script: |
+            cd techshop/reactnative-fixed/android
+            ./gradlew installDebug --no-daemon
+            cd ../../..
+            maestro test \
+              --format junit \
+              --output maestro-report.xml \
+              -e TEST_EMAIL="$TEST_EMAIL" \
+              -e TEST_PASSWORD="$TEST_PASSWORD" \
+              -e EMAIL="$TEST_EMAIL" \
+              -e PASSWORD="$TEST_PASSWORD" \
+              maestro/flows
+
+      - name: Upload Maestro Test Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: maestro-test-report
+          path: |
+            maestro-report.xml
+            ~/.maestro/tests/
+          retention-days: 7
