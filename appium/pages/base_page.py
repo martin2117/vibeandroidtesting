@@ -34,13 +34,32 @@ class BasePage:
         self.driver = driver
         self.timeout = timeout
 
+    def scroll_down(self) -> None:
+        """Scrolls down the screen."""
+        try:
+            size = self.driver.get_window_size()
+            width = size["width"]
+            height = size["height"]
+            start_x = width // 2
+            start_y = int(height * 0.75)
+            end_y = int(height * 0.25)
+            self.driver.swipe(start_x, start_y, start_x, end_y, 400)
+        except Exception:
+            pass
+
     def find(self, locator: Tuple[str, str], timeout: Optional[int] = None) -> WebElement:
-        """Finds a visible element on screen within timeout."""
+        """Finds a visible element on screen within timeout, scrolling if needed."""
         t = timeout if timeout is not None else self.timeout
-        return WebDriverWait(self.driver, t).until(
-            EC.visibility_of_element_located(locator),
-            message=f"Element {locator} not visible after {t}s"
-        )
+        try:
+            return WebDriverWait(self.driver, min(3, t)).until(
+                EC.visibility_of_element_located(locator)
+            )
+        except TimeoutException:
+            self.scroll_down()
+            return WebDriverWait(self.driver, t).until(
+                EC.visibility_of_element_located(locator),
+                message=f"Element {locator} not visible after {t}s"
+            )
 
     def find_present(self, locator: Tuple[str, str], timeout: Optional[int] = None) -> WebElement:
         """Finds an element present in the DOM/hierarchy within timeout."""
@@ -60,13 +79,20 @@ class BasePage:
             return []
 
     def click(self, locator: Tuple[str, str], timeout: Optional[int] = None) -> None:
-        """Waits for an element to be clickable and clicks it."""
+        """Waits for an element to be clickable and clicks it, scrolling if needed."""
         t = timeout if timeout is not None else self.timeout
-        element = WebDriverWait(self.driver, t).until(
-            EC.element_to_be_clickable(locator),
-            message=f"Element {locator} not clickable after {t}s"
-        )
-        element.click()
+        try:
+            element = WebDriverWait(self.driver, min(3, t)).until(
+                EC.element_to_be_clickable(locator)
+            )
+            element.click()
+        except TimeoutException:
+            self.scroll_down()
+            element = WebDriverWait(self.driver, t).until(
+                EC.element_to_be_clickable(locator),
+                message=f"Element {locator} not clickable after {t}s"
+            )
+            element.click()
 
     def type_text(self, locator: Tuple[str, str], text: str, clear: bool = True, timeout: Optional[int] = None) -> None:
         """Types text into an input field, optionally clearing existing content first."""

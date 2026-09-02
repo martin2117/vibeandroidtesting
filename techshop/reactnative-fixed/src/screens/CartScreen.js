@@ -101,7 +101,7 @@ export default function CartScreen({ navigation }) {
         <Text style={styles.subtotal}>Subtotal: ${Number(subtotal).toFixed(2)}</Text>
         {/* FIXED (BUG-006): render the live total directly. */}
         <Text testID="order-total" style={styles.total}>
-          Order Total: ${Number(total).toFixed(2)}
+          Total: ${Number(total).toFixed(2)}
         </Text>
       </View>
 
