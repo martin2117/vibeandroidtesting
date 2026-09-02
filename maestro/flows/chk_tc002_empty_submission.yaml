@@ -6,6 +6,7 @@ appId: com.techshop.android
 - launchApp:
     clearState: true
 - runFlow: ../subflows/checkout_setup.yaml
+- scroll
 - tapOn:
     id: "checkout-submit"
 - extendedWaitUntil:

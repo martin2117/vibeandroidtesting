@@ -52,7 +52,7 @@ export default function CartScreen({ navigation }) {
 
           <View style={styles.stepper}>
             <TouchableOpacity
-              testID={`qty-decrement-${product.id}`}
+              testID={`qty-dec-${product.id}`}
               style={styles.stepBtn}
               onPress={() => setQuantity(product.id, quantity - 1)}
             >
@@ -64,7 +64,7 @@ export default function CartScreen({ navigation }) {
             </Text>
 
             <TouchableOpacity
-              testID={`qty-increment-${product.id}`}
+              testID={`qty-inc-${product.id}`}
               style={styles.stepBtn}
               onPress={() => setQuantity(product.id, quantity + 1)}
             >
@@ -88,13 +88,20 @@ export default function CartScreen({ navigation }) {
           value={discountCode}
           onChangeText={setDiscountCode}
         />
+        <TouchableOpacity
+          testID="apply-discount"
+          style={styles.applyBtn}
+          onPress={() => setDiscountCode(discountCode)}
+        >
+          <Text style={styles.applyBtnText}>Apply</Text>
+        </TouchableOpacity>
       </View>
 
       <View style={styles.totals}>
-        <Text style={styles.subtotal}>Subtotal: ${subtotal}</Text>
+        <Text style={styles.subtotal}>Subtotal: ${Number(subtotal).toFixed(2)}</Text>
         {/* FIXED (BUG-006): render the live total directly. */}
         <Text testID="order-total" style={styles.total}>
-          Order Total: ${total}
+          Order Total: ${Number(total).toFixed(2)}
         </Text>
       </View>
 
@@ -124,8 +131,10 @@ const styles = StyleSheet.create({
   stepText: { fontSize: 20, color: '#3b2fb5', fontWeight: '700' },
   qty: { minWidth: 28, textAlign: 'center', fontSize: 16, fontWeight: '700' },
   remove: { color: '#c0392b', fontSize: 13 },
-  discountRow: { marginTop: 4, marginBottom: 12 },
-  discountInput: { borderWidth: 1, borderColor: '#ccc', borderRadius: 10, padding: 12, backgroundColor: '#fff' },
+  discountRow: { flexDirection: 'row', alignItems: 'center', marginTop: 4, marginBottom: 12 },
+  discountInput: { flex: 1, borderWidth: 1, borderColor: '#ccc', borderRadius: 10, padding: 12, backgroundColor: '#fff' },
+  applyBtn: { backgroundColor: '#3b2fb5', paddingVertical: 12, paddingHorizontal: 16, borderRadius: 10, marginLeft: 8 },
+  applyBtnText: { color: '#fff', fontWeight: '700' },
   totals: { marginTop: 4 },
   subtotal: { fontSize: 15, color: '#666' },
   total: { fontSize: 20, fontWeight: '800', color: '#1a1442', marginTop: 4 },

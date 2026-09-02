@@ -19,7 +19,7 @@ export default function CatalogScreen() {
             <View style={styles.info}>
               {/* FIXED (BUG-007): clamp to one line with an ellipsis. */}
               <Text
-                testID={`product-name-${item.id}`}
+                testID={`name-${item.id}`}
                 style={styles.name}
                 numberOfLines={1}
                 ellipsizeMode="tail"
@@ -30,7 +30,7 @@ export default function CatalogScreen() {
 
               {!item.inStock && (
                 // FIXED (BUG-008): the "Out of Stock" badge is red.
-                <Text testID={`badge-${item.id}`} style={styles.badge}>
+                <Text testID={`stock-${item.id}`} style={styles.badge}>
                   Out of Stock
                 </Text>
               )}
