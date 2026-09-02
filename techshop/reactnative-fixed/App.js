@@ -1,4 +1,5 @@
 import React from 'react';
+import { Text } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -40,7 +41,16 @@ function MainTabs() {
       <Tab.Screen
         name="Products"
         component={CatalogScreen}
-        options={{ title: 'Products', tabBarAccessibilityLabel: 'Products', tabBarTestID: 'tab-products' }}
+        options={{
+          headerTitle: () => (
+            <Text testID="catalog-title" style={{ fontSize: 18, fontWeight: '700', color: '#1a1442' }}>
+              Products
+            </Text>
+          ),
+          title: 'Products',
+          tabBarAccessibilityLabel: 'Products',
+          tabBarTestID: 'tab-products',
+        }}
       />
       <Tab.Screen
         name="Cart"

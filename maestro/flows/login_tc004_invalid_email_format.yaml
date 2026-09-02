@@ -14,7 +14,7 @@ appId: com.techshop.android
 - inputText: "password123"
 - hideKeyboard
 - tapOn:
-    text: "Log In"
+    id: "login-submit"
 - extendedWaitUntil:
     visible:
       id: "login-error"
