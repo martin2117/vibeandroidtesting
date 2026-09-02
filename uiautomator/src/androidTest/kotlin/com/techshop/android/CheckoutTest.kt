@@ -62,6 +62,13 @@ class CheckoutTest : BaseUiAutomatorTest() {
         val cvvField = findAndWait(byRes("checkout-cvv"))
         assertNotNull("CVV field 'checkout-cvv' must be present", cvvField)
         cvvField!!.text = cvv
+
+        // Dismiss soft keyboard so bottom submit button and error messages are unobscured
+        try {
+            device.pressBack()
+        } catch (e: Exception) {
+            // Ignore
+        }
     }
 
     /**
@@ -165,7 +172,15 @@ class CheckoutTest : BaseUiAutomatorTest() {
         assertNotNull("Card field 'checkout-card' must be present", cardField)
         cardField!!.text = "4111222233334444"
 
-        submitBtn.click()
+        try {
+            device.pressBack()
+        } catch (e: Exception) {
+            // Ignore
+        }
+
+        val updatedSubmitBtn = findAndWait(byRes("checkout-submit"))
+        assertNotNull("Place Order button 'checkout-submit' must be present", updatedSubmitBtn)
+        updatedSubmitBtn!!.click()
 
         val confirmationTitle = findAndWait(byRes("confirmation-title"))
         assertNotNull("Confirmation screen must appear with valid 16-digit card", confirmationTitle)
@@ -196,7 +211,15 @@ class CheckoutTest : BaseUiAutomatorTest() {
         assertNotNull("Phone field 'checkout-phone' must be present", phoneField)
         phoneField!!.text = "5551234567"
 
-        submitBtn.click()
+        try {
+            device.pressBack()
+        } catch (e: Exception) {
+            // Ignore
+        }
+
+        val updatedSubmitBtn = findAndWait(byRes("checkout-submit"))
+        assertNotNull("Place Order button 'checkout-submit' must be present", updatedSubmitBtn)
+        updatedSubmitBtn!!.click()
 
         val confirmationTitle = findAndWait(byRes("confirmation-title"))
         assertNotNull("Confirmation screen must appear with valid 10-digit phone", confirmationTitle)
@@ -231,7 +254,15 @@ class CheckoutTest : BaseUiAutomatorTest() {
         assertNotNull("CVV field 'checkout-cvv' must be present", cvvField)
         cvvField!!.text = "123"
 
-        submitBtn.click()
+        try {
+            device.pressBack()
+        } catch (e: Exception) {
+            // Ignore
+        }
+
+        val updatedSubmitBtn = findAndWait(byRes("checkout-submit"))
+        assertNotNull("Place Order button 'checkout-submit' must be present", updatedSubmitBtn)
+        updatedSubmitBtn!!.click()
 
         val confirmationTitle = findAndWait(byRes("confirmation-title"))
         assertNotNull("Confirmation screen must appear with valid 3-digit CVV", confirmationTitle)
