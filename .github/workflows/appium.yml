@@ -58,6 +58,29 @@ jobs:
         working-directory: techshop/reactnative-fixed/android
         run: ./gradlew assembleDebug --no-daemon
 
+      - name: Create Test Runner Script
+        run: |
+          cat << 'EOF' > run_appium_tests.sh
+          #!/usr/bin/env bash
+          set -e
+          adb install techshop/reactnative-fixed/android/app/build/outputs/apk/debug/app-debug.apk
+          appium --log appium.log &
+          APPIUM_PID=$!
+          for i in $(seq 1 30); do
+            if curl -s http://127.0.0.1:4723/status > /dev/null; then
+              echo "Appium ready"
+              break
+            fi
+            sleep 1
+          done
+          set +e
+          pytest appium/tests --junitxml=appium-report.xml
+          TEST_EXIT=$?
+          kill -9 $APPIUM_PID || true
+          exit $TEST_EXIT
+          EOF
+          chmod +x run_appium_tests.sh
+
       - name: Run Appium Tests on Android Emulator
         uses: reactivecircus/android-emulator-runner@v2
         env:
@@ -70,23 +93,7 @@ jobs:
           force-avd-creation: false
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
-          script: |
-            adb install techshop/reactnative-fixed/android/app/build/outputs/apk/debug/app-debug.apk
-            bash -c '
-              appium --log appium.log &
-              APPIUM_PID=$!
-              for i in {1..30}; do
-                if curl -s http://127.0.0.1:4723/status > /dev/null; then
-                  echo "Appium ready"
-                  break
-                fi
-                sleep 1
-              done
-              pytest appium/tests --junitxml=appium-report.xml
-              TEST_EXIT=$?
-              kill -9 $APPIUM_PID || true
-              exit $TEST_EXIT
-            '
+          script: bash run_appium_tests.sh
 
       - name: Upload Appium Test Report
         if: always()
