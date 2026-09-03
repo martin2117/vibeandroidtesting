@@ -88,19 +88,22 @@ open class BaseUiAutomatorTest {
      * @return The found UiObject2, or null if the element is not found within the timeout.
      */
     protected fun findAndWait(selector: BySelector, timeout: Long = DEFAULT_TIMEOUT): UiObject2? {
-        val found = device.wait(Until.hasObject(selector), minOf(timeout, 1500L))
+        device.waitForIdle()
+        val found = device.wait(Until.hasObject(selector), minOf(timeout, 2000L))
         if (found) {
             return device.findObject(selector)
         }
         try {
             for (i in 1..3) {
                 scrollDown()
+                device.waitForIdle()
                 if (device.wait(Until.hasObject(selector), 1000L)) {
                     return device.findObject(selector)
                 }
             }
             for (i in 1..3) {
                 scrollUp()
+                device.waitForIdle()
                 if (device.wait(Until.hasObject(selector), 1000L)) {
                     return device.findObject(selector)
                 }
