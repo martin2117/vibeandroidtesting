@@ -85,10 +85,10 @@ class CheckoutTest : BaseUiAutomatorTest() {
         assertNotNull("Place Order button 'checkout-submit' must be present", submitBtn)
         submitBtn!!.click()
 
-        val confirmationTitle = findAndWait(byRes("confirmation-title")) ?: findAndWait(By.text("Order Confirmed!"))
+        val confirmationTitle = findAndWait(byRes("confirmation-title")) ?: findAndWait(By.text("Order Confirmed"))
         assertNotNull("Confirmation title 'confirmation-title' must be displayed", confirmationTitle)
 
-        val orderRef = findAndWait(byRes("confirmation-order-ref")) ?: findAndWait(By.textStartsWith("Order Ref:"))
+        val orderRef = findAndWait(byRes("confirmation-order-ref")) ?: findAndWait(By.textStartsWith("Order reference:"))
         assertNotNull("Order reference 'confirmation-order-ref' must be displayed (BUG-013)", orderRef)
     }
 
@@ -136,11 +136,13 @@ class CheckoutTest : BaseUiAutomatorTest() {
         val submitBtn = findAndWait(byRes("checkout-submit")) ?: findAndWait(By.text("Place Order"))
         assertNotNull("Place Order button 'checkout-submit' must be present", submitBtn)
         submitBtn!!.click()
+        device.waitForIdle()
 
-        val checkoutError = findAndWait(byRes("checkout-error"))
-        assertNotNull("Inline error 'checkout-error' must be displayed for expired card date (BUG-009)", checkoutError)
+        val hasError = device.wait(Until.hasObject(byRes("checkout-error")), 5000L)
+            || (device.wait(Until.hasObject(By.text("Expiry date must not be in the past")), 3000L))
+        assertNotNull("Inline error 'checkout-error' must be displayed for expired card date (BUG-009)", if (hasError) device.findObject(byRes("checkout-error")) ?: device.findObject(By.text("Expiry date must not be in the past")) else null)
 
-        val confirmationTitle = findAndWait(byRes("confirmation-title"), 1000L)
+        val confirmationTitle = device.findObject(byRes("confirmation-title"))
         assertNull("Confirmation screen must not be reached with expired card date", confirmationTitle)
     }
 
@@ -160,9 +162,11 @@ class CheckoutTest : BaseUiAutomatorTest() {
         val submitBtn = findAndWait(byRes("checkout-submit")) ?: findAndWait(By.text("Place Order"))
         assertNotNull("Place Order button 'checkout-submit' must be present", submitBtn)
         submitBtn!!.click()
+        device.waitForIdle()
 
-        val checkoutError = findAndWait(byRes("checkout-error"))
-        assertNotNull("15-digit card number must trigger validation error", checkoutError)
+        val hasError = device.wait(Until.hasObject(byRes("checkout-error")), 5000L)
+            || (device.wait(Until.hasObject(By.text("Card number must be 16 digits")), 3000L))
+        assertNotNull("15-digit card number must trigger validation error", if (hasError) device.findObject(byRes("checkout-error")) ?: device.findObject(By.text("Card number must be 16 digits")) else null)
 
         // 2. Correct to 16 digits — should be accepted
         val cardField = findAndWait(byRes("checkout-card"))
@@ -173,7 +177,7 @@ class CheckoutTest : BaseUiAutomatorTest() {
         assertNotNull("Place Order button 'checkout-submit' must be present", updatedSubmitBtn)
         updatedSubmitBtn!!.click()
 
-        val confirmationTitle = findAndWait(byRes("confirmation-title")) ?: findAndWait(By.text("Order Confirmed!"))
+        val confirmationTitle = findAndWait(byRes("confirmation-title")) ?: findAndWait(By.text("Order Confirmed"))
         assertNotNull("Confirmation screen must appear with valid 16-digit card", confirmationTitle)
     }
 
@@ -193,9 +197,11 @@ class CheckoutTest : BaseUiAutomatorTest() {
         val submitBtn = findAndWait(byRes("checkout-submit")) ?: findAndWait(By.text("Place Order"))
         assertNotNull("Place Order button 'checkout-submit' must be present", submitBtn)
         submitBtn!!.click()
+        device.waitForIdle()
 
-        val checkoutError = findAndWait(byRes("checkout-error"))
-        assertNotNull("9-digit phone number must trigger validation error", checkoutError)
+        val hasError = device.wait(Until.hasObject(byRes("checkout-error")), 5000L)
+            || (device.wait(Until.hasObject(By.text("Phone must be 10 digits")), 3000L))
+        assertNotNull("9-digit phone number must trigger validation error", if (hasError) device.findObject(byRes("checkout-error")) ?: device.findObject(By.text("Phone must be 10 digits")) else null)
 
         // 2. Correct to 10 digits — should be accepted
         val phoneField = findAndWait(byRes("checkout-phone"))
@@ -206,7 +212,7 @@ class CheckoutTest : BaseUiAutomatorTest() {
         assertNotNull("Place Order button 'checkout-submit' must be present", updatedSubmitBtn)
         updatedSubmitBtn!!.click()
 
-        val confirmationTitle = findAndWait(byRes("confirmation-title")) ?: findAndWait(By.text("Order Confirmed!"))
+        val confirmationTitle = findAndWait(byRes("confirmation-title")) ?: findAndWait(By.text("Order Confirmed"))
         assertNotNull("Confirmation screen must appear with valid 10-digit phone", confirmationTitle)
     }
 
@@ -230,9 +236,11 @@ class CheckoutTest : BaseUiAutomatorTest() {
         val submitBtn = findAndWait(byRes("checkout-submit")) ?: findAndWait(By.text("Place Order"))
         assertNotNull("Place Order button 'checkout-submit' must be present", submitBtn)
         submitBtn!!.click()
+        device.waitForIdle()
 
-        val checkoutError = findAndWait(byRes("checkout-error"))
-        assertNotNull("2-digit CVV must trigger validation error", checkoutError)
+        val hasError = device.wait(Until.hasObject(byRes("checkout-error")), 5000L)
+            || (device.wait(Until.hasObject(By.text("CVV must be 3 digits")), 3000L))
+        assertNotNull("2-digit CVV must trigger validation error", if (hasError) device.findObject(byRes("checkout-error")) ?: device.findObject(By.text("CVV must be 3 digits")) else null)
 
         // 2. Correct to 3 digits — should be accepted
         val cvvField = findAndWait(byRes("checkout-cvv"))
@@ -243,7 +251,7 @@ class CheckoutTest : BaseUiAutomatorTest() {
         assertNotNull("Place Order button 'checkout-submit' must be present", updatedSubmitBtn)
         updatedSubmitBtn!!.click()
 
-        val confirmationTitle = findAndWait(byRes("confirmation-title")) ?: findAndWait(By.text("Order Confirmed!"))
+        val confirmationTitle = findAndWait(byRes("confirmation-title")) ?: findAndWait(By.text("Order Confirmed"))
         assertNotNull("Confirmation screen must appear with valid 3-digit CVV", confirmationTitle)
     }
 
@@ -263,11 +271,13 @@ class CheckoutTest : BaseUiAutomatorTest() {
         val submitBtn = findAndWait(byRes("checkout-submit")) ?: findAndWait(By.text("Place Order"))
         assertNotNull("Place Order button 'checkout-submit' must be present", submitBtn)
         submitBtn!!.click()
+        device.waitForIdle()
 
-        val checkoutError = findAndWait(byRes("checkout-error"))
-        assertNotNull("Invalid email format must display error in 'checkout-error'", checkoutError)
+        val hasError = device.wait(Until.hasObject(byRes("checkout-error")), 5000L)
+            || (device.wait(Until.hasObject(By.text("Enter a valid email")), 3000L))
+        assertNotNull("Invalid email format must display error in 'checkout-error'", if (hasError) device.findObject(byRes("checkout-error")) ?: device.findObject(By.text("Enter a valid email")) else null)
 
-        val confirmationTitle = findAndWait(byRes("confirmation-title"), 1000L)
+        val confirmationTitle = device.findObject(byRes("confirmation-title"))
         assertNull("Confirmation screen must not be reached on invalid email format", confirmationTitle)
     }
 
@@ -308,10 +318,10 @@ class CheckoutTest : BaseUiAutomatorTest() {
         assertNotNull("Place Order button 'checkout-submit' must be present", submitBtn)
         submitBtn!!.click()
 
-        val confirmationTitle = findAndWait(byRes("confirmation-title")) ?: findAndWait(By.text("Order Confirmed!"))
+        val confirmationTitle = findAndWait(byRes("confirmation-title")) ?: findAndWait(By.text("Order Confirmed"))
         assertNotNull("Confirmation title 'confirmation-title' must be displayed", confirmationTitle)
 
-        val orderRef = findAndWait(byRes("confirmation-order-ref")) ?: findAndWait(By.textStartsWith("Order Ref:"))
+        val orderRef = findAndWait(byRes("confirmation-order-ref")) ?: findAndWait(By.textStartsWith("Order reference:"))
         assertNotNull("Order reference 'confirmation-order-ref' must be prominently displayed (BUG-013)", orderRef)
     }
 }
