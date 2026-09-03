@@ -37,13 +37,6 @@ open class BaseUiAutomatorTest {
         // Initialize UiDevice instance
         device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
 
-        // Force stop to guarantee completely clean state between tests
-        try {
-            device.executeShellCommand("am force-stop $PACKAGE_NAME")
-        } catch (e: Exception) {
-            // Ignore
-        }
-
         // Launch app by package name with clean task flags
         val context = ApplicationProvider.getApplicationContext<Context>()
         val intent = context.packageManager.getLaunchIntentForPackage(PACKAGE_NAME)?.apply {
