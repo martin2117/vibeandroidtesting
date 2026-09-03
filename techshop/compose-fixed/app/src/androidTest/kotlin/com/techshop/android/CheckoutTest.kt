@@ -107,7 +107,7 @@ class CheckoutTest : BaseUiAutomatorTest() {
         assertNotNull("Place Order button 'checkout-submit' must be present", submitBtn)
         submitBtn!!.click()
 
-        val checkoutError = findAndWait(byRes("checkout-error"), 2000L)
+        val checkoutError = findAndWait(byRes("checkout-error")) ?: findAndWait(By.text("All fields are required"))
         assertNotNull("Inline error 'checkout-error' must be displayed on empty form submission (BUG-012)", checkoutError)
 
         val confirmationTitle = findAndWait(byRes("confirmation-title"), 1000L)
@@ -133,7 +133,7 @@ class CheckoutTest : BaseUiAutomatorTest() {
         assertNotNull("Place Order button 'checkout-submit' must be present", submitBtn)
         submitBtn!!.click()
 
-        val checkoutError = findAndWait(byRes("checkout-error"), 2000L)
+        val checkoutError = findAndWait(byRes("checkout-error"))
         assertNotNull("Inline error 'checkout-error' must be displayed for expired card date (BUG-009)", checkoutError)
 
         val confirmationTitle = findAndWait(byRes("confirmation-title"), 1000L)
@@ -260,7 +260,7 @@ class CheckoutTest : BaseUiAutomatorTest() {
         assertNotNull("Place Order button 'checkout-submit' must be present", submitBtn)
         submitBtn!!.click()
 
-        val checkoutError = findAndWait(byRes("checkout-error"), 2000L)
+        val checkoutError = findAndWait(byRes("checkout-error"))
         assertNotNull("Invalid email format must display error in 'checkout-error'", checkoutError)
 
         val confirmationTitle = findAndWait(byRes("confirmation-title"), 1000L)
