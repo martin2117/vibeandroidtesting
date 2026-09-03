@@ -8,8 +8,6 @@ import androidx.test.uiautomator.By
 import androidx.test.uiautomator.BySelector
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.UiObject2
-import androidx.test.uiautomator.UiScrollable
-import androidx.test.uiautomator.UiSelector
 import androidx.test.uiautomator.Until
 import org.junit.Before
 
@@ -70,33 +68,15 @@ open class BaseUiAutomatorTest {
     }
 
     fun scrollDown() {
-        try {
-            val scrollable = UiScrollable(UiSelector().scrollable(true))
-            if (scrollable.exists()) {
-                scrollable.scrollForward()
-                return
-            }
-        } catch (e: Exception) {
-            // Ignore
-        }
         val width = device.displayWidth
         val height = device.displayHeight
-        device.swipe(width / 2, (height * 0.65).toInt(), width / 2, (height * 0.35).toInt(), 20)
+        device.swipe(width / 2, (height * 0.7).toInt(), width / 2, (height * 0.3).toInt(), 20)
     }
 
     fun scrollUp() {
-        try {
-            val scrollable = UiScrollable(UiSelector().scrollable(true))
-            if (scrollable.exists()) {
-                scrollable.scrollBackward()
-                return
-            }
-        } catch (e: Exception) {
-            // Ignore
-        }
         val width = device.displayWidth
         val height = device.displayHeight
-        device.swipe(width / 2, (height * 0.35).toInt(), width / 2, (height * 0.65).toInt(), 20)
+        device.swipe(width / 2, (height * 0.3).toInt(), width / 2, (height * 0.7).toInt(), 20)
     }
 
     /**
@@ -108,7 +88,7 @@ open class BaseUiAutomatorTest {
      * @return The found UiObject2, or null if the element is not found within the timeout.
      */
     protected fun findAndWait(selector: BySelector, timeout: Long = DEFAULT_TIMEOUT): UiObject2? {
-        val found = device.wait(Until.hasObject(selector), 1000L)
+        val found = device.wait(Until.hasObject(selector), minOf(timeout, 1500L))
         if (found) {
             return device.findObject(selector)
         }

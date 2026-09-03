@@ -62,13 +62,6 @@ class CheckoutTest : BaseUiAutomatorTest() {
         val cvvField = findAndWait(byRes("checkout-cvv"))
         assertNotNull("CVV field 'checkout-cvv' must be present", cvvField)
         cvvField!!.text = cvv
-
-        // Dismiss soft keyboard so bottom submit button and error messages are unobscured
-        try {
-            device.pressBack()
-        } catch (e: Exception) {
-            // Ignore
-        }
     }
 
     /**
@@ -172,12 +165,6 @@ class CheckoutTest : BaseUiAutomatorTest() {
         assertNotNull("Card field 'checkout-card' must be present", cardField)
         cardField!!.text = "4111222233334444"
 
-        try {
-            device.pressBack()
-        } catch (e: Exception) {
-            // Ignore
-        }
-
         val updatedSubmitBtn = findAndWait(byRes("checkout-submit"))
         assertNotNull("Place Order button 'checkout-submit' must be present", updatedSubmitBtn)
         updatedSubmitBtn!!.click()
@@ -210,12 +197,6 @@ class CheckoutTest : BaseUiAutomatorTest() {
         val phoneField = findAndWait(byRes("checkout-phone"))
         assertNotNull("Phone field 'checkout-phone' must be present", phoneField)
         phoneField!!.text = "5551234567"
-
-        try {
-            device.pressBack()
-        } catch (e: Exception) {
-            // Ignore
-        }
 
         val updatedSubmitBtn = findAndWait(byRes("checkout-submit"))
         assertNotNull("Place Order button 'checkout-submit' must be present", updatedSubmitBtn)
@@ -253,12 +234,6 @@ class CheckoutTest : BaseUiAutomatorTest() {
         val cvvField = findAndWait(byRes("checkout-cvv"))
         assertNotNull("CVV field 'checkout-cvv' must be present", cvvField)
         cvvField!!.text = "123"
-
-        try {
-            device.pressBack()
-        } catch (e: Exception) {
-            // Ignore
-        }
 
         val updatedSubmitBtn = findAndWait(byRes("checkout-submit"))
         assertNotNull("Place Order button 'checkout-submit' must be present", updatedSubmitBtn)
