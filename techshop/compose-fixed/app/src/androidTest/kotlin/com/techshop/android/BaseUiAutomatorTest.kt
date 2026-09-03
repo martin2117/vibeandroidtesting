@@ -37,6 +37,13 @@ open class BaseUiAutomatorTest {
         // Initialize UiDevice instance
         device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
 
+        // Force stop to guarantee completely clean state between tests
+        try {
+            device.executeShellCommand("am force-stop $PACKAGE_NAME")
+        } catch (e: Exception) {
+            // Ignore
+        }
+
         // Launch app by package name with clean task flags
         val context = ApplicationProvider.getApplicationContext<Context>()
         val intent = context.packageManager.getLaunchIntentForPackage(PACKAGE_NAME)?.apply {
@@ -67,35 +74,51 @@ open class BaseUiAutomatorTest {
         return By.res(java.util.regex.Pattern.compile(".*(:id/)?$resourceId$"))
     }
 
+    fun scrollDown() {
+        val width = device.displayWidth
+        val height = device.displayHeight
+        device.swipe(width / 2, (height * 0.8).toInt(), width / 2, (height * 0.2).toInt(), 40)
+    }
+
+    fun scrollUp() {
+        val width = device.displayWidth
+        val height = device.displayHeight
+        device.swipe(width / 2, (height * 0.2).toInt(), width / 2, (height * 0.8).toInt(), 40)
+    }
+
     /**
-     * Finds a UI element using an explicit wait with Until before returning the UiObject2.
+     * Finds a UI element using an explicit wait with Until before returning the UiObject2,
+     * with automatic scrolling retry if not immediately in viewport.
      *
      * @param selector The BySelector to locate the element.
      * @param timeout The maximum duration in milliseconds to wait for the element.
      * @return The found UiObject2, or null if the element is not found within the timeout.
      */
     protected fun findAndWait(selector: BySelector, timeout: Long = DEFAULT_TIMEOUT): UiObject2? {
-        val found = device.wait(Until.hasObject(selector), timeout)
+        val found = device.wait(Until.hasObject(selector), minOf(timeout, 2000L))
         if (found) {
             return device.findObject(selector)
         }
         try {
-            val width = device.displayWidth
-            val height = device.displayHeight
-            // Swipe up to scroll down
-            device.swipe(width / 2, (height * 0.75).toInt(), width / 2, (height * 0.25).toInt(), 15)
-            if (device.wait(Until.hasObject(selector), timeout)) {
+            // Try scrolling down to reveal elements below the fold
+            scrollDown()
+            if (device.wait(Until.hasObject(selector), minOf(timeout, 2000L))) {
                 return device.findObject(selector)
             }
-            // Swipe down to scroll up
-            device.swipe(width / 2, (height * 0.25).toInt(), width / 2, (height * 0.75).toInt(), 15)
-            if (device.wait(Until.hasObject(selector), timeout)) {
+            // Try scrolling back up
+            scrollUp()
+            scrollUp()
+            if (device.wait(Until.hasObject(selector), minOf(timeout, 2000L))) {
                 return device.findObject(selector)
             }
         } catch (e: Exception) {
             // Ignore swipe failures
         }
-        return null
+        return if (device.wait(Until.hasObject(selector), timeout)) {
+            device.findObject(selector)
+        } else {
+            null
+        }
     }
 
     /**
