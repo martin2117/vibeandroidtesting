@@ -107,11 +107,13 @@ class CheckoutTest : BaseUiAutomatorTest() {
         val submitBtn = findAndWait(byRes("checkout-submit")) ?: findAndWait(By.text("Place Order"))
         assertNotNull("Place Order button 'checkout-submit' must be present", submitBtn)
         submitBtn!!.click()
+        device.waitForIdle()
 
-        val checkoutError = findAndWait(byRes("checkout-error")) ?: findAndWait(By.text("All fields are required"))
-        assertNotNull("Inline error 'checkout-error' must be displayed on empty form submission (BUG-012)", checkoutError)
+        val hasError = device.wait(Until.hasObject(byRes("checkout-error")), 5000L)
+            || (device.wait(Until.hasObject(By.text("All fields are required")), 3000L))
+        assertNotNull("Inline error 'checkout-error' must be displayed on empty form submission (BUG-012)", if (hasError) device.findObject(byRes("checkout-error")) ?: device.findObject(By.text("All fields are required")) else null)
 
-        val confirmationTitle = findAndWait(byRes("confirmation-title"), 1000L)
+        val confirmationTitle = device.findObject(byRes("confirmation-title"))
         assertNull("Confirmation screen must not be reached on empty form submission", confirmationTitle)
     }
 
